@@ -7,7 +7,7 @@ namespace ToDoList.Controllers
     public class ItemsController : Controller
     {
 
-        [HttpGet("/items")]
+        [HttpGet("/")]
         public ActionResult Index()
         {
             List<Item> allItems = Item.GetAll();
