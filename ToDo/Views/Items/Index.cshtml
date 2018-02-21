@@ -9,13 +9,14 @@
     <ul>
       @foreach(var item in Model)
       {
-        <li><a href="/items/@item.GetId()">@item.GetDescription()</a></li>
+        <h4>@item.GetDescription() | <a href="/items/@item.GetId()/update"> Edit </a> </h4>
       }
     </ul>
     <a href="/items/new">Add a new item.</a>
 
     <form action="/items/delete" method="post">
     <button type="submit" name="button">Clear All Items</button>
+    <!-- <button type="submit" name="button">Delete Item</button> -->
     </form>
   </body>
 </html>

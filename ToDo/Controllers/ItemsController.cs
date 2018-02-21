@@ -42,5 +42,35 @@ namespace ToDoList.Controllers
           Item.DeleteAll();
           return View();
         }
+        [HttpGet("/items/{id}/update")]
+        public ActionResult UpdateForm(int id)
+        {
+            Item thisItem = Item.Find(id);
+            return View(thisItem);
+        }
+        [HttpPost("/items/{id}/update")]
+        public ActionResult Update(int id)
+        {
+            Item thisItem = Item.Find(id);
+            thisItem.Edit(Request.Form["newname"]);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("/items/{id}/deleteitem")]
+        public ActionResult DeleteItemForm(int id)
+        {
+            Item thisItem = Item.Find(id);
+            thisItem.DeleteItem(); 
+            return RedirectToAction("Index");
+        }
+        // [HttpPost("/items/{id}/deleteitem")]
+        // public ActionResult DeleteItem(int id)
+        // {
+        //     Item thisItem = Item.Find(id);
+        //     thisItem.DeleteItem();
+        //     return RedirectToAction("Index");
+        // }
+
+
     }
 }
