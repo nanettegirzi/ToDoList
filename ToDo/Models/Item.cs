@@ -8,13 +8,35 @@ namespace ToDoList.Models
   public class Item
   {
     private string _description;
+    private int _categoryId;
     private int _id;
 
-    public Item (string Description, int Id = 0)
+    public Item (string description, int categoryId = 0, int id = 0)
     {
-      _description = Description;
-      _id = Id;
+      _description = description;
+      _categoryId = categoryId;
+      _id = id;
     }
+
+    public override bool Equals(System.Object otherItem)
+    {
+        if (!(otherItem is Item))
+        {
+            return false;
+        }
+        else
+        {
+            Item newItem = (Item) otherItem;
+            bool idEquality = this.GetId() == newItem.GetId();
+            bool descriptionEquality = this.GetDescription() == newItem.GetDescription();
+            bool categoryEquality = this.GetCategoryId() == newItem.GetCategoryId();
+            return (idEquality && descriptionEquality && categoryEquality);
+        }
+    }
+    public override int GetHashCode()
+        {
+             return this.GetDescription().GetHashCode();
+        }
 
     public string GetDescription()
     {
@@ -30,7 +52,10 @@ namespace ToDoList.Models
     {
       return _id;
     }
-
+    public int GetCategoryId()
+    {
+        return _categoryId;
+    }
     public static List<Item> GetAll()
     {
       List<Item> allItems = new List<Item> {};
@@ -41,9 +66,11 @@ namespace ToDoList.Models
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
-        int itemId = rdr.GetInt32(0);
         string itemDescription = rdr.GetString(1);
-        Item newItem = new Item(itemDescription, itemId);
+        int itemCategoryId = rdr.GetInt32(2);
+        int itemId = rdr.GetInt32(0);
+        
+        Item newItem = new Item(itemDescription, itemCategoryId, itemId);
         allItems.Add(newItem);
       }
       conn.Close();
@@ -71,19 +98,6 @@ namespace ToDoList.Models
       }
     }
 
-    public override bool Equals(System.Object otherItem)
-    {
-      if (!(otherItem is Item))
-      {
-        return false;
-      }
-      else
-      {
-        Item newItem = (Item) otherItem;
-        bool descriptionEquality = (this.GetDescription() == newItem.GetDescription());
-        return (descriptionEquality);
-      }
-    }
 
     public void Save()
     {
@@ -91,12 +105,17 @@ namespace ToDoList.Models
       conn.Open();
 
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"INSERT INTO `items` (`description`) VALUES (@ItemDescription);";
+      cmd.CommandText = @"INSERT INTO `items` (`description`, `category_id`) VALUES (@ItemDescription, @category_id);";
 
       MySqlParameter description = new MySqlParameter();
       description.ParameterName = "@ItemDescription";
       description.Value = this._description;
       cmd.Parameters.Add(description);
+
+      MySqlParameter categoryId = new MySqlParameter();
+      categoryId.ParameterName = "@category_id";
+      categoryId.Value = this._categoryId;
+      cmd.Parameters.Add(categoryId);
 
       cmd.ExecuteNonQuery();
       _id = (int) cmd.LastInsertedId;
@@ -125,14 +144,16 @@ namespace ToDoList.Models
 
       int itemId = 0;
       string itemDescription = "";
+      int itemCategoryId = 0;
 
       while (rdr.Read())
       {
         itemId = rdr.GetInt32(0);
         itemDescription = rdr.GetString(1);
+        itemCategoryId = rdr.GetInt32(2);
       }
 
-      Item foundItem = new Item(itemDescription, itemId);
+      Item foundItem = new Item(itemDescription, itemCategoryId, itemId);
 
       conn.Close();
       if (conn != null)

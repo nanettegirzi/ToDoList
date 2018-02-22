@@ -7,12 +7,12 @@ namespace ToDoList.Controllers
     public class ItemsController : Controller
     {
 
-        [HttpGet("/")]
-        public ActionResult Index()
-        {
-            List<Item> allItems = Item.GetAll();
-            return View(allItems);
-        }
+        // [HttpGet("/")]
+        // public ActionResult Index()
+        // {
+        //     List<Item> allItems = Item.GetAll();
+        //     return View(allItems);
+        // }
 
         [HttpGet("/items/new")]
         public ActionResult CreateForm()
@@ -60,7 +60,7 @@ namespace ToDoList.Controllers
         public ActionResult DeleteItemForm(int id)
         {
             Item thisItem = Item.Find(id);
-            thisItem.DeleteItem(); 
+            thisItem.DeleteItem();
             return RedirectToAction("Index");
         }
         // [HttpPost("/items/{id}/deleteitem")]
