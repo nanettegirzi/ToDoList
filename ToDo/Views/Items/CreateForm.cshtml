@@ -10,7 +10,8 @@
 <form action="/categories/details" method="post">
   <label for="new-item">Item Description</label>
   <input id="new-item" name="new-item" type="text">
-  <button type="submit"><a href="/categories/details">Add item</a></button>
+  <input name="category-id" type="hidden" value="@Model">
+   <button type="submit">Add item</button>
 </form>
   </body>
 </html>

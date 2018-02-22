@@ -9,10 +9,12 @@
         <ul>
           @foreach(var item in Model["items"])
           {
-            <h4>@item.GetDescription() | <a href="/items/@Model.GetId()/update"> Edit </a> </h4>
+            <h4>@item.GetDescription() | <a href="/items/@item.GetId()/update"> Edit </a> </h4>
           }
         </ul>
-        <a href="/items/new">Add a new item.</a>
+        <a href="/items/new/@Model["category"].GetId()">Add a new item.</a>
+        <br>
+        <br>
 
         <form action="/items/delete" method="post">
         <button type="submit" name="button">Clear All Items</button>

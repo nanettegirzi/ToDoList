@@ -14,10 +14,10 @@ namespace ToDoList.Controllers
         //     return View(allItems);
         // }
 
-        [HttpGet("/items/new")]
-        public ActionResult CreateForm()
+        [HttpGet("/items/new/{categoryid}")]
+        public ActionResult CreateForm(int categoryid)
         {
-            return View();
+            return View(categoryid);
         }
 
         [HttpGet("/items/{id}")]
