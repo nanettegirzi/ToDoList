@@ -61,7 +61,7 @@ namespace ToDoList.Controllers
         {
             Item thisItem = Item.Find(id);
             thisItem.DeleteItem();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Categories", new {id=thisItem.GetCategoryId()});
         }
         // [HttpPost("/items/{id}/deleteitem")]
         // public ActionResult DeleteItem(int id)
