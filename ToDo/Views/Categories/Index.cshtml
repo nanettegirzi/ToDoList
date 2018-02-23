@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <h1>To Do List</h1>
+@{
+  Layout="_Layout";
+}
+
     <ol>
       @foreach(var category in Model)
       {
-        <h4><a href ="/categories/details/@category.GetId()">@category.GetName()</a></h4>
+        <li><h6><a href ="/categories/details/@category.GetId()">@category.GetName()</a></h6></li>
       }
-    </ol>
-    <a href="/categories/new">Add a new Category.</a>
+  </ol>
+  <br>
+    <a href="/categories/new">Add a new List Category</a>
     <br>
     <br>
-
     <form action="/categories/delete" method="post">
-    <button type="submit" name="button">Clear All Categories</button>
-    <!-- <button type="submit" name="button">Delete Item</button> -->
+    <button class="btn btn-danger" type="submit" name="button">Clear All Categories</button>
     </form>
-  </body>
-</html>

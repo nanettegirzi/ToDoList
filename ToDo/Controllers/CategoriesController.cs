@@ -49,13 +49,12 @@ namespace ToDoListApp.Controllers
             return RedirectToAction("Details", new {id = newItem.GetCategoryId()});
         }
 
+        [HttpPost("/categories/delete")]
+        public ActionResult DeleteAll()
+        {
+          Category.DeleteAll();
+          return View();
+        }
 
-
-        // [HttpPost("/categories/delete")]
-        // public ActionResult DeleteAll()
-        // {
-        //   Category.DeleteAll();
-        //   return View();
-        // }
     }
 }

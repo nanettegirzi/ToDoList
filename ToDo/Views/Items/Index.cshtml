@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <h1>To Do List</h1>
+@{
+  Layout="_Layout";
+}
     <ul>
       @foreach(var item in Model)
       {
@@ -18,5 +13,3 @@
     <button type="submit" name="button">Clear All Items</button>
     <!-- <button type="submit" name="button">Delete Item</button> -->
     </form>
-  </body>
-</html>

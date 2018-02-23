@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>To Do List</title>
-  </head>
-  <body>
-    <h1>To Do List</h1>
+@{
+  Layout="_Layout";
+}
     <h3>Add a new Category:</h3>
 <form action="/categories" method="post">
   <label for="new-category">Category</label>
   <input id="new-category" name="new-category" type="text">
   <button type="submit" name="button">Add Category</button>
 </form>
-  </body>
-</html>

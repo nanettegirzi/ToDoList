@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>To Do List</title>
-    </head>
-    <body>
+@{
+  Layout="_Layout";
+}
+
         <h1>@Model["category"].GetName()</h1>
+        <hr>
         <ul>
           @foreach(var item in Model["items"])
           {
-            <h4>@item.GetDescription() | <a href="/items/@item.GetId()/update"> Edit </a> </h4>
+            <li><p>@item.GetDescription() | <a href="/items/@item.GetId()/update"> Edit </a> </p></li>
           }
         </ul>
-        <a href="/items/new/@Model["category"].GetId()">Add a new item.</a>
+        <a href="/items/new/@Model["category"].GetId()">Add a new to do item.</a>
         <br>
         <br>
 
         <form action="/items/delete" method="post">
-        <button type="submit" name="button">Clear All Items</button>
+        <button class="btn btn-danger" type="submit" name="button">Clear All Items</button>
         </form>
-
-    </body>
-</html>
+        <br>
+        <h4><a href="/">Return home</a></h4>

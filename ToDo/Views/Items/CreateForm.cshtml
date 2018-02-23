@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <h1>To Do List</h1>
+@{
+  Layout="_Layout";
+}
+
     <h3>Add a new item:</h3>
 <form action="/categories/details" method="post">
   <label for="new-item">Item Description</label>
@@ -13,5 +9,3 @@
   <input name="category-id" type="hidden" value="@Model">
    <button type="submit">Add item</button>
 </form>
-  </body>
-</html>
