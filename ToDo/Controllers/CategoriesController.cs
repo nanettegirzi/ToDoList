@@ -3,58 +3,77 @@ using Microsoft.AspNetCore.Mvc;
 using ToDoList.Models;
 using System;
 
-namespace ToDoListApp.Controllers
+namespace ToDoList.Controllers
 {
     public class CategoriesController : Controller
     {
 
-        [HttpGet("/")]
+        [HttpGet("/categories")]
         public ActionResult Index()
         {
             List<Category> allCategories = Category.GetAll();
             return View(allCategories);
         }
 
+
         [HttpGet("/categories/new")]
         public ActionResult CreateForm()
         {
             return View();
         }
-
         [HttpPost("/categories")]
         public ActionResult Create()
         {
-            Category newCategory = new Category(Request.Form["new-category"]);
+            Category newCategory = new Category(Request.Form["category-name"]);
             newCategory.Save();
-            List<Category> allCategories = Category.GetAll();
-            return View("Index", allCategories);
+            return RedirectToAction("Success", "Home");
         }
 
-        [HttpGet("/categories/details/{id}")]
-        public ActionResult Details(int id)
+        [HttpGet("/categories/{id}")]
+        public ActionResult CategoryDetail(int id)
         {
             Dictionary<string, object> model = new Dictionary<string, object>();
             Category selectedCategory = Category.Find(id);
             List<Item> categoryItems = selectedCategory.GetItems();
+            List<Item> allItems = Item.GetAll();
             model.Add("category", selectedCategory);
-            model.Add("items", categoryItems);
-            return View("Details", model);
+            model.Add("categoryItems", categoryItems);
+            model.Add("allItems", allItems);
+            return View(model);
         }
 
-        [HttpPost("/categories/details")]
-        public ActionResult PostDetails()
+        [HttpPost("/categories/{categoryId}/items/new")]
+        public ActionResult AddItem(int categoryId)
         {
-            Item newItem = new Item (Request.Form["new-item"], Int32.Parse(Request.Form["category-id"]));
-            newItem.Save();
-            return RedirectToAction("Details", new {id = newItem.GetCategoryId()});
+            Category category = Category.Find(categoryId);
+            Item item = Item.Find(Int32.Parse(Request.Form["item-id"]));
+            category.AddItem(item);
+            return RedirectToAction("Success", "Home");
         }
 
-        [HttpPost("/categories/delete")]
-        public ActionResult DeleteAll()
-        {
-          Category.DeleteAll();
-          return View();
-        }
+        [HttpGet("/categories/{categoryId}/update")]
+       public ActionResult UpdateForm(int categoryId)
+       {
+           Category thisCategory = Category.Find(categoryId);
+           return View("update", thisCategory);
+       }
+
+       [HttpPost("/categories/{categoryId}/update")]
+       public ActionResult Update(int categoryId)
+       {
+         Category thisCategory = Category.Find(categoryId);
+         thisCategory.Edit(Request.Form["newname"]);
+         return RedirectToAction("Index");
+       }
+
+       [HttpGet("/categories/{categoryid}/delete")]
+       public ActionResult DeleteOne(int categoryId)
+       {
+         Category thisCategory = Category.Find(categoryId);
+         thisCategory.Delete();
+         return RedirectToAction("index");
+       }
+
 
     }
 }
